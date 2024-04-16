@@ -48,7 +48,7 @@ class SmsVerificationController extends Controller
 //        dd(trim($user['phone']));
             session()->put('user',$user);
             session()->put('code',$code);
-        $token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTI0MjMwNjEsImlhdCI6MTcwOTgzMTA2MSwicm9sZSI6InRlc3QiLCJzaWduIjoiYWE3MDU1MDllYzRkYThkZjYwMzY5MjAwNjc5NzkyMGM4NjY0OTJhMWU2NzZmODg5MmYxMDA0N2M1ZmE4Y2JjMyIsInN1YiI6IjUxMTgifQ.Q85Cm28Oct3aoySlzcuYok8ar5RN8smIy4fl2GfvZic';
+        $token = 'Token';
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'notify.eskiz.uz/api/message/sms/send',
