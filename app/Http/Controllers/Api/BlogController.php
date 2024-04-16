@@ -3,27 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Orders;
-use App\Models\Products;
+use App\Http\Resources\BlogResource;
+use App\Models\Blog;
 use Illuminate\Http\Request;
 
-class ApiController extends Controller
+class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Orders::all();
-        return response()->json(['results'=>$products]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return BlogResource::collection(Blog::all());
     }
 
     /**
@@ -37,17 +28,9 @@ class ApiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Blog $blog)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return new BlogResource($blog);
     }
 
     /**
@@ -63,6 +46,7 @@ class ApiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Blog::destroy($id);
+        return ['success'];
     }
 }

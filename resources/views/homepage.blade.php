@@ -50,6 +50,8 @@
                 <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
                 @if (Route::has('login'))
                         @auth
+                        <li><a href="{{ url('blog/create') }}"><i class="fa fa-plus"></i>Add Blog</a></li>
+                        <li><a href="{{ url('blog') }}"><i class="fa fa-newspaper-o"></i> Blogs</a></li>
                         <li><a href="{{ url('my/orders') }}"><i class="fa fa-shopping-basket"></i> My Orders</a></li>
                         <li><a href="{{ route('home') }}"><i class="fa fa-user-circle-o"></i> My Account</a></li>
                         @else
@@ -81,8 +83,14 @@
                 </div>
                 <!-- /LOGO -->
                 @php
-                    $id = auth()->id();
-                    $carts = \Illuminate\Support\Facades\DB::select('select * from carts where user_id = ?', [$id]);
+//                    $id = auth()->id();
+                    $id = \Illuminate\Support\Facades\Cache::remember('auth-user', 600,function (){
+                        return auth()->id();
+                    });
+                    $carts = \Illuminate\Support\Facades\Cache::remember('carts', 600,function (){
+                        return \Illuminate\Support\Facades\DB::select('select * from carts where user_id = ?', [auth()->id()]);
+                    });
+//                    $carts = \Illuminate\Support\Facades\DB::select('select * from carts where user_id = ?', [$id]);
                     $price = 0;
                     $categories = App\Models\Category::take(5)->get();
                     $wishlists = \Illuminate\Support\Facades\DB::select('select * from wishlists where user_id = ?', [$id]);
@@ -296,6 +304,7 @@
                         <h3 class="footer-title">Service</h3>
                         <ul class="footer-links">
                             <li><a href="{{ url('/home') }}">My Account</a></li>
+                            <li><a href="{{ url('/blog') }}">Blogs</a></li>
                             <li><a href="{{ url('product/carts') }}">View Cart</a></li>
                             <li><a href="{{ url('/wishlists') }}">Wishlist</a></li>
                             <li><a href="{{ url('my/orders') }}">Track My Order</a></li>

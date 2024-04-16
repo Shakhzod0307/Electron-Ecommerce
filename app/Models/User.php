@@ -52,4 +52,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Orders::class);
     }
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+    }
 }
